@@ -1,0 +1,17 @@
+{
+  "gerado_em": null,
+  "periodo_dataset": {
+    "inicio": "2023-01-02",
+    "fim": "2025-12-31",
+    "total_registros": 122543
+  },
+  "kpis": {
+    "volume_mes_atual": 27321,
+    "previsao_d1": 859.8,
+    "previsao_d7_total": 6092.1,
+    "taxa_violacao_sla_pct": 0.97,
+    "pct_aberto_monitoramento": 85.1,
+    "auc_modelo_risco": 0.776,
+    "mape_previsao_pct": 13.22
+  }
+}

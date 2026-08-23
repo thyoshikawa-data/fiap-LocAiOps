@@ -1,0 +1,104 @@
+{
+  "top_produtos": [
+    {
+      "produto": "lhco",
+      "volume": 12835
+    },
+    {
+      "produto": "lsin",
+      "volume": 7342
+    },
+    {
+      "produto": "lcem",
+      "volume": 5878
+    },
+    {
+      "produto": "lhvp",
+      "volume": 4454
+    },
+    {
+      "produto": "lrev",
+      "volume": 3784
+    },
+    {
+      "produto": "lcho",
+      "volume": 1368
+    }
+  ],
+  "violacao_por_origem": [
+    {
+      "Aberto por": "Manual",
+      "taxa_violacao": 1.26,
+      "amostras": 16071
+    },
+    {
+      "Aberto por": "Monitoramento",
+      "taxa_violacao": 0.47,
+      "amostras": 9529
+    }
+  ],
+  "top_codigos_fechamento": [
+    {
+      "codigo": "Falha de Aplicação",
+      "volume": 20612
+    },
+    {
+      "codigo": "Falha de Sistema Operacional",
+      "volume": 5009
+    },
+    {
+      "codigo": "Outro",
+      "volume": 3490
+    },
+    {
+      "codigo": "Falha causada pelo cliente",
+      "volume": 1796
+    },
+    {
+      "codigo": "Sem retorno do solicitante",
+      "volume": 1527
+    },
+    {
+      "codigo": "Falha não reproduzida",
+      "volume": 1401
+    },
+    {
+      "codigo": "Incidente causado por Change",
+      "volume": 1353
+    },
+    {
+      "codigo": "Falha de Cloud",
+      "volume": 1202
+    }
+  ],
+  "clusters_operacionais": [
+    {
+      "cluster": 0,
+      "tamanho": 40585,
+      "duracao_media_min": 2006.7,
+      "hora_media_abertura": 8.5,
+      "pct_manual": 17.3
+    },
+    {
+      "cluster": 1,
+      "tamanho": 44922,
+      "duracao_media_min": 1865.0,
+      "hora_media_abertura": 18.5,
+      "pct_manual": 15.5
+    },
+    {
+      "cluster": 2,
+      "tamanho": 36462,
+      "duracao_media_min": 1371.2,
+      "hora_media_abertura": 6.5,
+      "pct_manual": 10.6
+    },
+    {
+      "cluster": 3,
+      "tamanho": 574,
+      "duracao_media_min": 509426.5,
+      "hora_media_abertura": 13.4,
+      "pct_manual": 69.3
+    }
+  ]
+}

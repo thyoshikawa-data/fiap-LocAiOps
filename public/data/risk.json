@@ -1,0 +1,125 @@
+{
+  "metricas": {
+    "auc_holdout": 0.776,
+    "taxa_violacao_base_pct": 0.97,
+    "amostras_treino": 19200,
+    "amostras_teste": 6400
+  },
+  "importancia_features": [
+    {
+      "feature": "hora_abertura",
+      "importancia": 0.2992
+    },
+    {
+      "feature": "Grupo designado_Team14",
+      "importancia": 0.183
+    },
+    {
+      "feature": "dia_semana",
+      "importancia": 0.175
+    },
+    {
+      "feature": "Grupo designado_Team09",
+      "importancia": 0.0583
+    },
+    {
+      "feature": "Aberto por_Monitoramento",
+      "importancia": 0.0431
+    },
+    {
+      "feature": "Aberto por_Manual",
+      "importancia": 0.0426
+    },
+    {
+      "feature": "Grupo designado_Team05",
+      "importancia": 0.0408
+    },
+    {
+      "feature": "Grupo designado_Team11",
+      "importancia": 0.0246
+    }
+  ],
+  "alertas_simulados": [
+    {
+      "ticket": "INC8649768",
+      "prioridade": "3 - Média",
+      "produto": "lrdo",
+      "grupo": "Team11",
+      "aberto_por": "Manual",
+      "probabilidade": 92.0,
+      "severidade": "ALTO",
+      "recomendacao": "Escalar para intervenção manual imediata"
+    },
+    {
+      "ticket": "INC8653593",
+      "prioridade": "2 - Alta",
+      "produto": "lsin",
+      "grupo": "Team03",
+      "aberto_por": "Monitoramento",
+      "probabilidade": 90.5,
+      "severidade": "ALTO",
+      "recomendacao": "Priorizar triagem automática antes do SLA"
+    },
+    {
+      "ticket": "INC8649800",
+      "prioridade": "3 - Média",
+      "produto": "lhco",
+      "grupo": "Team11",
+      "aberto_por": "Manual",
+      "probabilidade": 88.5,
+      "severidade": "ALTO",
+      "recomendacao": "Escalar para intervenção manual imediata"
+    },
+    {
+      "ticket": "INC8652807",
+      "prioridade": "3 - Média",
+      "produto": "lrdo",
+      "grupo": "Team11",
+      "aberto_por": "Manual",
+      "probabilidade": 61.6,
+      "severidade": "ALTO",
+      "recomendacao": "Escalar para intervenção manual imediata"
+    },
+    {
+      "ticket": "INC8652831",
+      "prioridade": "3 - Média",
+      "produto": "lrdo",
+      "grupo": "Team11",
+      "aberto_por": "Manual",
+      "probabilidade": 61.6,
+      "severidade": "ALTO",
+      "recomendacao": "Escalar para intervenção manual imediata"
+    },
+    {
+      "ticket": "INC8652819",
+      "prioridade": "3 - Média",
+      "produto": "lrdo",
+      "grupo": "Team11",
+      "aberto_por": "Manual",
+      "probabilidade": 61.6,
+      "severidade": "ALTO",
+      "recomendacao": "Escalar para intervenção manual imediata"
+    },
+    {
+      "ticket": "INC8650588",
+      "prioridade": "2 - Alta",
+      "produto": "lhco",
+      "grupo": "Team09",
+      "aberto_por": "Manual",
+      "probabilidade": 58.7,
+      "severidade": "ALTO",
+      "recomendacao": "Escalar para intervenção manual imediata"
+    },
+    {
+      "ticket": "INC8651368",
+      "prioridade": "3 - Média",
+      "produto": "lrel",
+      "grupo": "Team11",
+      "aberto_por": "Manual",
+      "probabilidade": 53.6,
+      "severidade": "ALTO",
+      "recomendacao": "Escalar para intervenção manual imediata"
+    }
+  ],
+  "aviso": "Probabilidades geradas sobre tickets históricos reais, simulando o momento da abertura — não representam incidentes em aberto no momento."
+}
