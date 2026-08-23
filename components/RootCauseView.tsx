@@ -3,71 +3,86 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { RootCause } from "@/lib/types";
 
-export default function RootCauseView({ rootcause }: { rootcause: RootCause }) {
+const tooltipStyle = {
+  contentStyle: { background: "#FFFFFF", border: "1px solid #E4E0DC", fontSize: 12, color: "#2A343E" },
+  labelStyle: { color: "#2A343E", fontWeight: 600 },
+};
+
+function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      <div>
-        <h3 className="mb-2 text-sm font-semibold text-slate-300">Top produtos por volume</h3>
+    <div className="rounded-xl border border-[#E4E0DC] bg-white p-4 shadow-sm">
+      <h3 className="mb-3 text-sm font-semibold text-[#2A343E]">{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+export default function RootCauseView({ rootcause }: { rootcause: RootCause }) {
+  const manual = rootcause.violacao_por_origem.find((r) => r["Aberto por"] === "Manual")?.taxa_violacao ?? 0;
+  const monitoramento =
+    rootcause.violacao_por_origem.find((r) => r["Aberto por"] === "Monitoramento")?.taxa_violacao || 1;
+
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      <Panel title="Top produtos por volume">
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={rootcause.top_produtos} margin={{ left: -16, right: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="produto" stroke="#94a3b8" fontSize={11} />
-              <YAxis stroke="#94a3b8" fontSize={11} />
-              <Tooltip contentStyle={{ background: "#0f172a", border: "1px solid #334155", fontSize: 12 }} />
-              <Bar dataKey="volume" fill="#38bdf8" radius={[4, 4, 0, 0]} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E4E0DC" />
+              <XAxis dataKey="produto" stroke="#8A8580" fontSize={11} />
+              <YAxis stroke="#8A8580" fontSize={11} />
+              <Tooltip {...tooltipStyle} />
+              <Bar dataKey="volume" fill="#2A343E" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </div>
+      </Panel>
 
-      <div>
-        <h3 className="mb-2 text-sm font-semibold text-slate-300">Taxa de violação de SLA por origem</h3>
+      <Panel title="Taxa de violação de SLA por origem">
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={rootcause.violacao_por_origem} margin={{ left: -16, right: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="Aberto por" stroke="#94a3b8" fontSize={11} />
-              <YAxis stroke="#94a3b8" fontSize={11} unit="%" />
-              <Tooltip contentStyle={{ background: "#0f172a", border: "1px solid #334155", fontSize: 12 }} />
-              <Bar dataKey="taxa_violacao" fill="#f472b6" radius={[4, 4, 0, 0]} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E4E0DC" />
+              <XAxis dataKey="Aberto por" stroke="#8A8580" fontSize={11} />
+              <YAxis stroke="#8A8580" fontSize={11} unit="%" />
+              <Tooltip {...tooltipStyle} />
+              <Bar dataKey="taxa_violacao" fill="#F00843" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <p className="mt-1 text-xs text-slate-500">
-          Abertura manual viola SLA{" "}
-          {(
-            (rootcause.violacao_por_origem.find((r) => r["Aberto por"] === "Manual")?.taxa_violacao ?? 0) /
-            (rootcause.violacao_por_origem.find((r) => r["Aberto por"] === "Monitoramento")?.taxa_violacao || 1)
-          ).toFixed(1)}
-          x mais que a via monitoramento.
+        <p className="mt-2 rounded-lg bg-[#FDE7EC] px-3 py-2 text-xs text-[#B0002F]">
+          Abertura manual viola SLA {(manual / monitoramento).toFixed(1)}x mais que a via monitoramento.
         </p>
-      </div>
+      </Panel>
 
-      <div>
-        <h3 className="mb-2 text-sm font-semibold text-slate-300">Top códigos de fechamento</h3>
-        <ul className="space-y-1 text-sm text-slate-300">
+      <Panel title="Top códigos de fechamento">
+        <ul className="text-sm text-slate-600">
           {rootcause.top_codigos_fechamento.slice(0, 6).map((c) => (
-            <li key={c.codigo} className="flex justify-between border-b border-slate-800 py-1">
+            <li
+              key={c.codigo}
+              className="flex justify-between border-b border-[#F0EDEA] py-1.5 last:border-0"
+            >
               <span>{c.codigo}</span>
               <span className="font-mono text-slate-400">{c.volume.toLocaleString("pt-BR")}</span>
             </li>
           ))}
         </ul>
-      </div>
+      </Panel>
 
-      <div>
-        <h3 className="mb-2 text-sm font-semibold text-slate-300">Clusters operacionais (KMeans)</h3>
-        <ul className="space-y-2 text-sm text-slate-300">
+      <Panel title="Clusters operacionais (KMeans)">
+        <ul className="space-y-2">
           {rootcause.clusters_operacionais.map((c) => (
-            <li key={c.cluster} className="rounded-lg border border-slate-800 p-2">
-              <span className="font-semibold text-slate-100">Cluster {c.cluster}</span> ·{" "}
-              {c.tamanho.toLocaleString("pt-BR")} incidentes · abertura média ~{c.hora_media_abertura}h ·
-              {" "}duração média {(c.duracao_media_min / 60).toFixed(1)}h · {c.pct_manual}% manual
+            <li
+              key={c.cluster}
+              className="rounded-lg border border-[#E4E0DC] bg-[#F5F3F2] p-2.5 text-sm text-slate-600"
+            >
+              <span className="font-semibold text-[#2A343E]">Cluster {c.cluster}</span> ·{" "}
+              {c.tamanho.toLocaleString("pt-BR")} incidentes · abertura média ~{c.hora_media_abertura}h ·{" "}
+              duração média {(c.duracao_media_min / 60).toFixed(1)}h · {c.pct_manual}% manual
             </li>
           ))}
         </ul>
-      </div>
+      </Panel>
     </div>
   );
 }

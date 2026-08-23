@@ -38,40 +38,40 @@ export default function VolumeChart({ forecast }: { forecast: Forecast }) {
   const series = [...merged, ...future].map((p) => ({ ...p, label: formatDate(p.data) }));
 
   return (
-    <div className="h-72 w-full">
+    <div className="h-80 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={series} margin={{ top: 8, right: 16, bottom: 0, left: -16 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-          <XAxis dataKey="label" stroke="#94a3b8" fontSize={11} interval={Math.floor(series.length / 12)} />
-          <YAxis stroke="#94a3b8" fontSize={11} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#E4E0DC" />
+          <XAxis dataKey="label" stroke="#8A8580" fontSize={11} interval={Math.floor(series.length / 12)} />
+          <YAxis stroke="#8A8580" fontSize={11} />
           <Tooltip
-            contentStyle={{ background: "#0f172a", border: "1px solid #334155", fontSize: 12 }}
-            labelStyle={{ color: "#e2e8f0" }}
+            contentStyle={{ background: "#FFFFFF", border: "1px solid #E4E0DC", fontSize: 12, color: "#2A343E" }}
+            labelStyle={{ color: "#2A343E", fontWeight: 600 }}
           />
-          <Legend wrapperStyle={{ fontSize: 12 }} />
+          <Legend wrapperStyle={{ fontSize: 12, color: "#2A343E" }} />
           <Line
             type="monotone"
             dataKey="real"
             name="Volume real"
-            stroke="#38bdf8"
+            stroke="#2A343E"
             dot={false}
-            strokeWidth={2}
+            strokeWidth={2.4}
             connectNulls={false}
           />
           <Line
             type="monotone"
             dataKey="previsto"
             name="Previsto (backtest + D+1..D+7)"
-            stroke="#f472b6"
+            stroke="#F00843"
             strokeDasharray="4 3"
             dot={false}
-            strokeWidth={2}
+            strokeWidth={2.4}
             connectNulls
           />
         </LineChart>
       </ResponsiveContainer>
       <p className="mt-1 text-xs text-slate-500">
-        {backtestDates.size} dias de backtest (linha rosa sobre o real) + 7 dias de previsão futura.
+        {backtestDates.size} dias de backtest (linha vermelha sobre o real) + 7 dias de previsão futura.
       </p>
     </div>
   );
