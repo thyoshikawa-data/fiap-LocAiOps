@@ -12,6 +12,7 @@ export function getDashboardData(): DashboardData {
   return {
     overview: readJson("overview.json"),
     forecast: readJson("forecast.json"),
+    segments: readJson("segments.json"),
     risk: readJson("risk.json"),
     rootcause: readJson("rootcause.json"),
   };

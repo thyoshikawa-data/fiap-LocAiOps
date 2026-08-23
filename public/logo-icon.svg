@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LocAiOps">
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#F00843"/>
+  <polyline points="10,42 20,42 24,30 28,42 32,42 34,26 41,17"
+            fill="none" stroke="#FFFFFF" stroke-width="4"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="46,12 43,18.9 39.1,15" fill="#FFFFFF"/>
+  <circle cx="24" cy="30" r="3.4" fill="#00ADC8" stroke="#F00843" stroke-width="1.2"/>
+</svg>

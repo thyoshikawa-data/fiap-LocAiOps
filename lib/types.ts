@@ -71,9 +71,30 @@ export interface RootCause {
   }[];
 }
 
+export interface SegmentOption {
+  id: string;
+  tipo: "todos" | "produto" | "prioridade";
+  valor: string | null;
+  label: string;
+}
+
+export interface Segment extends Forecast {
+  label: string;
+  kpis: {
+    volume_mes_atual: number;
+    taxa_violacao_sla_pct: number | null;
+  };
+}
+
+export interface Segments {
+  opcoes: SegmentOption[];
+  dados: Record<string, Segment>;
+}
+
 export interface DashboardData {
   overview: Overview;
   forecast: Forecast;
+  segments: Segments;
   risk: Risk;
   rootcause: RootCause;
 }

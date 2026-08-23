@@ -52,7 +52,7 @@ def load_dataset():
     return df
 
 
-def build_daily_series(df):
+def build_daily_series(df, idx=None):
     full = (
         df.groupby(df["Aberto"].dt.date)
         .size()
@@ -61,7 +61,8 @@ def build_daily_series(df):
         .rename(columns={"Aberto": "data"})
     )
     full["data"] = pd.to_datetime(full["data"])
-    idx = pd.date_range(full["data"].min(), full["data"].max(), freq="D")
+    if idx is None:
+        idx = pd.date_range(full["data"].min(), full["data"].max(), freq="D")
     full = full.set_index("data").reindex(idx, fill_value=0).rename_axis("data").reset_index()
     return full
 
@@ -94,7 +95,8 @@ def forecast_volume(daily_full):
 
     mae = float(mean_absolute_error(test["volume"], pred_test))
     denom = test["volume"].replace(0, np.nan)
-    mape = float((np.abs(test["volume"] - pred_test) / denom).dropna().mean() * 100)
+    mape_series = (np.abs(test["volume"] - pred_test) / denom).dropna()
+    mape = float(mape_series.mean() * 100) if len(mape_series) else None
 
     # retreina com todo o histórico do regime atual para prever o futuro
     model_full = RandomForestRegressor(n_estimators=300, random_state=RANDOM_STATE, min_samples_leaf=2)
@@ -140,7 +142,7 @@ def forecast_volume(daily_full):
     return {
         "metricas": {
             "mae_14d": round(mae, 2),
-            "mape_14d_pct": round(mape, 2),
+            "mape_14d_pct": round(mape, 2) if mape is not None else None,
             "janela_backtest_dias": test_size,
             "amostras_treino": int(len(train)),
         },
@@ -150,6 +152,58 @@ def forecast_volume(daily_full):
         "d1": forecasts[0]["previsto"],
         "d7_total": round(sum(f["previsto"] for f in forecasts), 1),
     }
+
+
+def segment_bundle(label, sub_df, global_idx):
+    daily_seg = build_daily_series(sub_df, idx=global_idx)
+    fc = forecast_volume(daily_seg)
+
+    last_date = global_idx.max()
+    last_month_mask = (sub_df["Aberto"].dt.year == last_date.year) & (
+        sub_df["Aberto"].dt.month == last_date.month
+    )
+    kpi_sub = sub_df[sub_df["Entrou_KPI"]]
+    taxa_violacao = (
+        round(float(kpi_sub["KPI_Violado"].mean()) * 100, 2) if len(kpi_sub) else None
+    )
+
+    return {
+        "label": label,
+        "historico": fc["historico"],
+        "backtest": fc["backtest"],
+        "previsao_7d": fc["previsao_7d"],
+        "d1": fc["d1"],
+        "d7_total": fc["d7_total"],
+        "metricas": fc["metricas"],
+        "kpis": {
+            "volume_mes_atual": int(last_month_mask.sum()),
+            "taxa_violacao_sla_pct": taxa_violacao,
+        },
+    }
+
+
+def build_segments(df):
+    global_idx = pd.date_range(df["Aberto"].min().normalize(), df["Aberto"].max().normalize(), freq="D")
+
+    top_produtos = df["Produto"].value_counts(dropna=True).head(5).index.tolist()
+    prioridades = ["2 - Alta", "3 - Média", "4 - Baixa"]
+
+    opcoes = [{"id": "todos", "tipo": "todos", "valor": None, "label": "Todos"}]
+    dados = {"todos": segment_bundle("Todos", df, global_idx)}
+
+    for produto in top_produtos:
+        seg_id = f"produto:{produto}"
+        opcoes.append({"id": seg_id, "tipo": "produto", "valor": produto, "label": f"Produto: {produto}"})
+        dados[seg_id] = segment_bundle(seg_id, df[df["Produto"] == produto], global_idx)
+
+    for prioridade in prioridades:
+        seg_id = f"prioridade:{prioridade}"
+        opcoes.append(
+            {"id": seg_id, "tipo": "prioridade", "valor": prioridade, "label": f"Prioridade: {prioridade}"}
+        )
+        dados[seg_id] = segment_bundle(seg_id, df[df["Prioridade"] == prioridade], global_idx)
+
+    return {"opcoes": opcoes, "dados": dados}
 
 
 def risk_model(df):
@@ -326,10 +380,10 @@ def overview(df, forecast, risk):
 
 def main():
     df = load_dataset()
-    daily_full = build_daily_series(df)
 
-    print("Treinando modelo de previsão de volume (D+1 / D+7)...")
-    forecast = forecast_volume(daily_full)
+    print("Treinando modelos de previsão de volume (geral + segmentos por produto/prioridade)...")
+    segments = build_segments(df)
+    forecast = segments["dados"]["todos"]
 
     print("Treinando modelo de risco de violação de SLA...")
     risk = risk_model(df)
@@ -343,6 +397,7 @@ def main():
     print("Exportando JSONs em", OUTPUT_DIR)
     dump("overview.json", ov)
     dump("forecast.json", forecast)
+    dump("segments.json", segments)
     dump("risk.json", risk)
     dump("rootcause.json", causes)
     print("Concluído.")

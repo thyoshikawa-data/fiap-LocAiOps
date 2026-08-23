@@ -1,10 +1,5 @@
 {
-  "metricas": {
-    "mae_14d": 137.63,
-    "mape_14d_pct": 13.22,
-    "janela_backtest_dias": 14,
-    "amostras_treino": 94
-  },
+  "label": "Todos",
   "historico": [
     {
       "data": "2025-09-01",
@@ -598,5 +593,15 @@
     }
   ],
   "d1": 859.8,
-  "d7_total": 6092.1
+  "d7_total": 6092.1,
+  "metricas": {
+    "mae_14d": 137.63,
+    "mape_14d_pct": 13.22,
+    "janela_backtest_dias": 14,
+    "amostras_treino": 94
+  },
+  "kpis": {
+    "volume_mes_atual": 27321,
+    "taxa_violacao_sla_pct": 0.97
+  }
 }
