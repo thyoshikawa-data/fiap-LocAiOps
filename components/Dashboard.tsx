@@ -58,12 +58,12 @@ export default function Dashboard({ data }: { data: DashboardData }) {
   return (
     <div className="mx-auto w-full max-w-[1680px] px-4 py-6 sm:px-8 lg:px-12">
       <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
+        <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt="LocAiOps" className="h-9 w-auto" />
-          <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-[#F00843]">
+          <span className="rounded-full border border-[#F00843]/30 bg-[#FDE7EC] px-2.5 py-1 text-xs font-semibold uppercase tracking-widest text-[#F00843]">
             Challenge Locaweb · FIAP 2TSCOA
-          </p>
+          </span>
         </div>
         <p className="max-w-xl text-sm text-slate-500">
           Dataset real da Locaweb: {overview.periodo_dataset.total_registros.toLocaleString("pt-BR")}{" "}
