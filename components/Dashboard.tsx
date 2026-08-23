@@ -61,7 +61,7 @@ export default function Dashboard({ data }: { data: DashboardData }) {
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt="LocAiOps" className="h-9 w-auto" />
-          <span className="rounded-full border border-[#F00843]/30 bg-[#FDE7EC] px-2.5 py-1 text-xs font-semibold uppercase tracking-widest text-[#F00843]">
+          <span className="text-xs font-semibold uppercase tracking-widest text-[#F00843]">
             Challenge Locaweb · FIAP 2TSCOA
           </span>
         </div>
