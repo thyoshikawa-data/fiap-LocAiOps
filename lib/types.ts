@@ -13,6 +13,12 @@ export interface Overview {
     auc_modelo_risco: number | null;
     mape_previsao_pct: number;
   };
+  produto_imputacao: {
+    pct_original: number;
+    pct_inferido: number;
+    pct_sem_produto: number;
+    metodo: string;
+  };
 }
 
 export interface ForecastPoint {
@@ -35,15 +41,29 @@ export interface Forecast {
   d7_total: number;
 }
 
+export interface ProdutoContexto {
+  volume_total: number;
+  taxa_violacao_pct: number | null;
+  top_codigo_fechamento: string | null;
+  pct_codigo_fechamento: number | null;
+  solucao_comum: string | null;
+  pct_solucao_comum: number | null;
+}
+
 export interface AlertaSimulado {
   ticket: string;
   prioridade: string;
   produto: string;
+  produto_origem: "original" | "inferido" | "desconhecido" | null;
+  categoria: string | null;
+  subcategoria: string | null;
+  item_configuracao: string | null;
   grupo: string;
   aberto_por: string;
   probabilidade: number;
   severidade: "ALTO" | "MÉDIO" | "BAIXO";
   recomendacao: string;
+  contexto_produto: ProdutoContexto | null;
 }
 
 export interface Risk {
@@ -84,6 +104,7 @@ export interface Segment extends Forecast {
     volume_mes_atual: number;
     taxa_violacao_sla_pct: number | null;
   };
+  historico_original?: { data: string; real: number }[];
 }
 
 export interface Segments {

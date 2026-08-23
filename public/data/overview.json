@@ -11,7 +11,13 @@
     "previsao_d7_total": 6092.1,
     "taxa_violacao_sla_pct": 0.97,
     "pct_aberto_monitoramento": 85.1,
-    "auc_modelo_risco": 0.776,
+    "auc_modelo_risco": 0.769,
     "mape_previsao_pct": 13.22
+  },
+  "produto_imputacao": {
+    "pct_original": 36.4,
+    "pct_inferido": 57.1,
+    "pct_sem_produto": 6.5,
+    "metodo": "Produto ausente inferido a partir do 'Item de configuração' quando este já apareceu em outro incidente com Produto conhecido (pureza média ~96%)."
   }
 }

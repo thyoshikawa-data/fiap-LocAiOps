@@ -49,7 +49,45 @@ def load_dataset():
     df["hora_abertura"] = df["Aberto"].dt.hour
     df["dia_semana"] = df["Aberto"].dt.dayofweek  # 0=segunda
     print(f"  {len(df):,} registros | período {df['Aberto'].min()} -> {df['Aberto'].max()}")
-    return df
+
+    df, imputacao_stats = infer_missing_produto(df)
+    print(
+        f"  Produto: {imputacao_stats['pct_original']:.1f}% original, "
+        f"+{imputacao_stats['pct_inferido']:.1f}% inferido via Item de configuração, "
+        f"{imputacao_stats['pct_sem_produto']:.1f}% permanece sem produto"
+    )
+    return df, imputacao_stats
+
+
+def infer_missing_produto(df):
+    """Usa 'Item de configuração' para inferir 'Produto' onde ele está ausente.
+
+    Cada item de configuração tende a pertencer sempre ao mesmo produto (~96%
+    de pureza média nos registros já rotulados). Aprende esse mapeamento nos
+    registros com Produto conhecido e aplica nos registros sem Produto que
+    compartilham um item de configuração já visto. Marca a origem em
+    'Produto_origem' (original | inferido | desconhecido) para transparência.
+    """
+    total = len(df)
+    original_null = df["Produto"].isna()
+    pct_original = (1 - original_null.mean()) * 100
+
+    labeled = df.dropna(subset=["Produto", "Item de configuração"])
+    mapa = labeled.groupby("Item de configuração")["Produto"].agg(lambda s: s.value_counts().idxmax())
+
+    inferido_mask = original_null & df["Item de configuração"].isin(mapa.index)
+    df.loc[inferido_mask, "Produto"] = df.loc[inferido_mask, "Item de configuração"].map(mapa)
+
+    df["Produto_origem"] = np.where(
+        ~original_null, "original", np.where(inferido_mask, "inferido", "desconhecido")
+    )
+
+    stats = {
+        "pct_original": float(pct_original),
+        "pct_inferido": float(inferido_mask.sum() / total * 100),
+        "pct_sem_produto": float(df["Produto"].isna().mean() * 100),
+    }
+    return df, stats
 
 
 def build_daily_series(df, idx=None):
@@ -194,7 +232,16 @@ def build_segments(df):
     for produto in top_produtos:
         seg_id = f"produto:{produto}"
         opcoes.append({"id": seg_id, "tipo": "produto", "valor": produto, "label": f"Produto: {produto}"})
-        dados[seg_id] = segment_bundle(seg_id, df[df["Produto"] == produto], global_idx)
+        seg = segment_bundle(seg_id, df[df["Produto"] == produto], global_idx)
+
+        original_sub = df[(df["Produto"] == produto) & (df["Produto_origem"] == "original")]
+        daily_original = build_daily_series(original_sub, idx=global_idx)
+        regime_original = daily_original[daily_original["data"] >= REGIME_START].reset_index(drop=True)
+        seg["historico_original"] = [
+            {"data": d.date().isoformat(), "real": int(v)}
+            for d, v in zip(regime_original["data"], regime_original["volume"])
+        ]
+        dados[seg_id] = seg
 
     for prioridade in prioridades:
         seg_id = f"prioridade:{prioridade}"
@@ -204,6 +251,42 @@ def build_segments(df):
         dados[seg_id] = segment_bundle(seg_id, df[df["Prioridade"] == prioridade], global_idx)
 
     return {"opcoes": opcoes, "dados": dados}
+
+
+def build_produto_context(df):
+    """Estatísticas históricas por produto: volume, taxa de violação e o padrão de
+    resolução mais comum (código de fechamento + tipo de solução), usadas para
+    sugerir uma solução provável nos alertas preditivos."""
+    contexto = {}
+    for produto, sub in df.groupby("Produto"):
+        if pd.isna(produto):
+            continue
+        kpi_sub = sub[sub["Entrou_KPI"]]
+        taxa = float(kpi_sub["KPI_Violado"].mean()) * 100 if len(kpi_sub) else None
+
+        fechamento_counts = sub["Código de fechamento"].value_counts(dropna=True)
+        top_codigo = fechamento_counts.index[0] if len(fechamento_counts) else None
+        pct_codigo = (
+            float(fechamento_counts.iloc[0] / fechamento_counts.sum() * 100)
+            if len(fechamento_counts)
+            else None
+        )
+
+        solucao_counts = sub["Solução"].value_counts(dropna=True)
+        top_solucao = solucao_counts.index[0] if len(solucao_counts) else None
+        pct_solucao = (
+            float(solucao_counts.iloc[0] / solucao_counts.sum() * 100) if len(solucao_counts) else None
+        )
+
+        contexto[produto] = {
+            "volume_total": int(len(sub)),
+            "taxa_violacao_pct": round(taxa, 2) if taxa is not None else None,
+            "top_codigo_fechamento": top_codigo,
+            "pct_codigo_fechamento": round(pct_codigo, 1) if pct_codigo is not None else None,
+            "solucao_comum": top_solucao,
+            "pct_solucao_comum": round(pct_solucao, 1) if pct_solucao is not None else None,
+        }
+    return contexto
 
 
 def risk_model(df):
@@ -261,13 +344,22 @@ def risk_model(df):
             return "MÉDIO"
         return "BAIXO"
 
+    produto_ctx = build_produto_context(df)
+
     alertas = []
     for _, row in top_risco.iterrows():
+        produto = row["Produto"] if pd.notna(row["Produto"]) else None
         alertas.append(
             {
                 "ticket": row["Número"],
                 "prioridade": row["Prioridade"],
-                "produto": row["Produto"] if pd.notna(row["Produto"]) else "não categorizado",
+                "produto": produto if produto else "não categorizado",
+                "produto_origem": row.get("Produto_origem"),
+                "categoria": row["Categoria"] if pd.notna(row["Categoria"]) else None,
+                "subcategoria": row["Subcategoria"] if pd.notna(row["Subcategoria"]) else None,
+                "item_configuracao": (
+                    row["Item de configuração"] if pd.notna(row["Item de configuração"]) else None
+                ),
                 "grupo": row["Grupo designado"],
                 "aberto_por": row["Aberto por"],
                 "probabilidade": round(float(row["prob_violacao"]) * 100, 1),
@@ -277,6 +369,7 @@ def risk_model(df):
                     if row["Aberto por"] == "Manual"
                     else "Priorizar triagem automática antes do SLA"
                 ),
+                "contexto_produto": produto_ctx.get(produto),
             }
         )
 
@@ -350,7 +443,7 @@ def root_cause(df):
     }
 
 
-def overview(df, forecast, risk):
+def overview(df, forecast, risk, imputacao_stats):
     last_date = df["Aberto"].max()
     last_month = df[
         (df["Aberto"].dt.year == last_date.year) & (df["Aberto"].dt.month == last_date.month)
@@ -375,11 +468,18 @@ def overview(df, forecast, risk):
             "auc_modelo_risco": risk["metricas"]["auc_holdout"],
             "mape_previsao_pct": forecast["metricas"]["mape_14d_pct"],
         },
+        "produto_imputacao": {
+            "pct_original": round(imputacao_stats["pct_original"], 1),
+            "pct_inferido": round(imputacao_stats["pct_inferido"], 1),
+            "pct_sem_produto": round(imputacao_stats["pct_sem_produto"], 1),
+            "metodo": "Produto ausente inferido a partir do 'Item de configuração' quando este já "
+            "apareceu em outro incidente com Produto conhecido (pureza média ~96%).",
+        },
     }
 
 
 def main():
-    df = load_dataset()
+    df, imputacao_stats = load_dataset()
 
     print("Treinando modelos de previsão de volume (geral + segmentos por produto/prioridade)...")
     segments = build_segments(df)
@@ -392,7 +492,7 @@ def main():
     causes = root_cause(df)
 
     print("Consolidando KPIs de visão geral...")
-    ov = overview(df, forecast, risk)
+    ov = overview(df, forecast, risk, imputacao_stats)
 
     print("Exportando JSONs em", OUTPUT_DIR)
     dump("overview.json", ov)

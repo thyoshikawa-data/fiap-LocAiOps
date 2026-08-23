@@ -4,7 +4,6 @@ import {
   Area,
   CartesianGrid,
   ComposedChart,
-  Legend,
   Line,
   ResponsiveContainer,
   Tooltip,
@@ -18,20 +17,25 @@ function formatDate(iso: string) {
   return `${d}/${m}`;
 }
 
-const PRODUCT_COLORS: Record<string, string> = {
-  lhco: "#F00843",
-  lsin: "#DE003B",
-  lcem: "#2A343E",
-  lhvp: "#00ADC8",
-  lrev: "#F4A6B7",
-};
+export interface BreakdownSeries {
+  key: string;
+  label: string;
+  color: string;
+  seg: Segment;
+}
 
 export default function StackedVolumeChart({
   todos,
-  produtos,
+  series,
+  outros,
+  caption,
+  historicoField = "historico",
 }: {
   todos: Segment;
-  produtos: { key: string; seg: Segment }[];
+  series: BreakdownSeries[];
+  outros: { label: string; color: string };
+  caption: string;
+  historicoField?: "historico" | "historico_original";
 }) {
   const rows = todos.historico.map((h, i) => {
     const row: Record<string, number | string | undefined> = {
@@ -39,9 +43,10 @@ export default function StackedVolumeChart({
       data: h.data,
     };
     let soma = 0;
-    for (const p of produtos) {
-      const v = p.seg.historico[i]?.real ?? 0;
-      row[p.key] = v;
+    for (const s of series) {
+      const fonte = s.seg[historicoField] ?? s.seg.historico;
+      const v = fonte[i]?.real ?? 0;
+      row[s.key] = v;
       soma += v;
     }
     row.outros = Math.max((h.real ?? 0) - soma, 0);
@@ -56,41 +61,53 @@ export default function StackedVolumeChart({
     previsto: f.previsto,
   }));
 
-  const series = [...rows, ...future];
+  const chartData = [...rows, ...future];
 
   return (
-    <div className="h-80 w-full">
+    <div className="w-full">
+      <div className="h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart data={series} margin={{ top: 8, right: 16, bottom: 0, left: -16 }}>
+        <ComposedChart data={chartData} margin={{ top: 8, right: 16, bottom: 0, left: -16 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#E4E0DC" />
-          <XAxis dataKey="label" stroke="#8A8580" fontSize={11} interval={Math.floor(series.length / 12)} />
+          <XAxis
+            dataKey="label"
+            stroke="#8A8580"
+            fontSize={11}
+            interval={Math.floor(chartData.length / 12)}
+          />
           <YAxis stroke="#8A8580" fontSize={11} />
           <Tooltip
-            contentStyle={{ background: "#FFFFFF", border: "1px solid #E4E0DC", fontSize: 12, color: "#2A343E" }}
+            contentStyle={{
+              background: "#FFFFFF",
+              border: "1px solid #E4E0DC",
+              fontSize: 12,
+              color: "#2A343E",
+            }}
             labelStyle={{ color: "#2A343E", fontWeight: 600 }}
           />
-          <Legend wrapperStyle={{ fontSize: 11, color: "#2A343E" }} />
-          {produtos.map((p) => (
-            <Area
-              key={p.key}
-              type="monotone"
-              dataKey={p.key}
-              name={`Produto: ${p.key}`}
-              stackId="vol"
-              stroke="none"
-              fill={PRODUCT_COLORS[p.key] ?? "#94A3B8"}
-              fillOpacity={0.85}
-            />
-          ))}
           <Area
             type="monotone"
             dataKey="outros"
-            name="Outros produtos"
+            name={outros.label}
             stackId="vol"
-            stroke="none"
-            fill="#C8C2BC"
-            fillOpacity={0.85}
+            stroke="#FFFFFF"
+            strokeWidth={1}
+            fill={outros.color}
+            fillOpacity={0.9}
           />
+          {series.map((s) => (
+            <Area
+              key={s.key}
+              type="monotone"
+              dataKey={s.key}
+              name={s.label}
+              stackId="vol"
+              stroke="#FFFFFF"
+              strokeWidth={1}
+              fill={s.color}
+              fillOpacity={0.9}
+            />
+          ))}
           <Line
             type="monotone"
             dataKey="previsto"
@@ -103,10 +120,29 @@ export default function StackedVolumeChart({
           />
         </ComposedChart>
       </ResponsiveContainer>
-      <p className="mt-1 text-xs text-slate-500">
-        Áreas empilhadas = volume real por produto (top 5 + &ldquo;outros&rdquo;). Linha tracejada =
-        previsão agregada (backtest 14 dias + D+1..D+7).
-      </p>
+      </div>
+
+      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
+        <span className="flex items-center gap-1.5">
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-sm"
+            style={{ backgroundColor: outros.color }}
+          />
+          {outros.label}
+        </span>
+        {series.map((s) => (
+          <span key={s.key} className="flex items-center gap-1.5">
+            <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: s.color }} />
+            {s.label}
+          </span>
+        ))}
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-0.5 w-3 border-t-2 border-dashed border-[#2A343E]" />
+          Previsto (agregado)
+        </span>
+      </div>
+
+      <p className="mt-1 text-xs text-slate-500">{caption}</p>
     </div>
   );
 }
