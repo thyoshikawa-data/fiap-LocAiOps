@@ -1,0 +1,64 @@
+segmento,data,previsto
+Todos,2026-01-01,859.8
+Todos,2026-01-02,852.7
+Todos,2026-01-03,846.4
+Todos,2026-01-04,859.2
+Todos,2026-01-05,919.1
+Todos,2026-01-06,890.7
+Todos,2026-01-07,864.2
+produto:lsin,2026-01-01,276.7
+produto:lsin,2026-01-02,302.1
+produto:lsin,2026-01-03,310.0
+produto:lsin,2026-01-04,317.7
+produto:lsin,2026-01-05,324.9
+produto:lsin,2026-01-06,335.4
+produto:lsin,2026-01-07,361.8
+produto:lhco,2026-01-01,430.5
+produto:lhco,2026-01-02,453.3
+produto:lhco,2026-01-03,457.6
+produto:lhco,2026-01-04,435.7
+produto:lhco,2026-01-05,494.0
+produto:lhco,2026-01-06,480.1
+produto:lhco,2026-01-07,446.7
+produto:lcem,2026-01-01,6.5
+produto:lcem,2026-01-02,6.2
+produto:lcem,2026-01-03,3.8
+produto:lcem,2026-01-04,2.3
+produto:lcem,2026-01-05,6.1
+produto:lcem,2026-01-06,5.8
+produto:lcem,2026-01-07,5.8
+produto:lsaa,2026-01-01,8.4
+produto:lsaa,2026-01-02,7.5
+produto:lsaa,2026-01-03,8.5
+produto:lsaa,2026-01-04,8.4
+produto:lsaa,2026-01-05,8.3
+produto:lsaa,2026-01-06,8.3
+produto:lsaa,2026-01-07,8.2
+produto:lhvp,2026-01-01,23.5
+produto:lhvp,2026-01-02,32.7
+produto:lhvp,2026-01-03,27.7
+produto:lhvp,2026-01-04,13.7
+produto:lhvp,2026-01-05,63.6
+produto:lhvp,2026-01-06,37.4
+produto:lhvp,2026-01-07,51.2
+prioridade:2 - Alta,2026-01-01,88.6
+prioridade:2 - Alta,2026-01-02,115.3
+prioridade:2 - Alta,2026-01-03,123.3
+prioridade:2 - Alta,2026-01-04,81.7
+prioridade:2 - Alta,2026-01-05,100.5
+prioridade:2 - Alta,2026-01-06,141.6
+prioridade:2 - Alta,2026-01-07,136.1
+prioridade:3 - Média,2026-01-01,409.8
+prioridade:3 - Média,2026-01-02,417.7
+prioridade:3 - Média,2026-01-03,415.9
+prioridade:3 - Média,2026-01-04,420.2
+prioridade:3 - Média,2026-01-05,498.6
+prioridade:3 - Média,2026-01-06,477.2
+prioridade:3 - Média,2026-01-07,434.7
+prioridade:4 - Baixa,2026-01-01,366.9
+prioridade:4 - Baixa,2026-01-02,389.5
+prioridade:4 - Baixa,2026-01-03,401.3
+prioridade:4 - Baixa,2026-01-04,402.0
+prioridade:4 - Baixa,2026-01-05,382.2
+prioridade:4 - Baixa,2026-01-06,392.2
+prioridade:4 - Baixa,2026-01-07,395.4
