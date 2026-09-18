@@ -1,58 +1,105 @@
 {
   "metricas": {
-    "auc_holdout": 0.769,
+    "auc_holdout": 0.804,
     "taxa_violacao_base_pct": 0.97,
     "amostras_treino": 19200,
     "amostras_teste": 6400
   },
   "importancia_features": [
     {
-      "feature": "hora_abertura",
-      "importancia": 0.3062
+      "feature": "Grupo designado_Team14",
+      "importancia": 0.3064
     },
     {
-      "feature": "Grupo designado_Team14",
-      "importancia": 0.1792
+      "feature": "hora_abertura",
+      "importancia": 0.1593
     },
     {
       "feature": "dia_semana",
-      "importancia": 0.1775
-    },
-    {
-      "feature": "Grupo designado_Team09",
-      "importancia": 0.0578
+      "importancia": 0.1156
     },
     {
       "feature": "Aberto por_Monitoramento",
-      "importancia": 0.0442
+      "importancia": 0.0815
+    },
+    {
+      "feature": "Grupo designado_Team09",
+      "importancia": 0.0807
     },
     {
       "feature": "Aberto por_Manual",
-      "importancia": 0.0405
+      "importancia": 0.0806
     },
     {
       "feature": "Grupo designado_Team05",
-      "importancia": 0.0398
+      "importancia": 0.054
     },
     {
-      "feature": "Grupo designado_Team11",
-      "importancia": 0.0243
+      "feature": "Grupo designado_Team07",
+      "importancia": 0.0348
     }
   ],
   "alertas_simulados": [
     {
-      "ticket": "INC8646876",
+      "ticket": "INC8567376",
+      "prioridade": "3 - Média",
+      "produto": "lsin",
+      "produto_origem": "original",
+      "categoria": "cat77",
+      "subcategoria": "sub336",
+      "item_configuracao": "IC00244",
+      "grupo": "Team12",
+      "aberto_por": "Monitoramento",
+      "probabilidade": 79.5,
+      "severidade": "ALTO",
+      "violou_sla_real": false,
+      "recomendacao": "Priorizar triagem automática antes do SLA",
+      "contexto_produto": {
+        "volume_total": 47352,
+        "taxa_violacao_pct": 1.92,
+        "top_codigo_fechamento": "Falha de Aplicação",
+        "pct_codigo_fechamento": 36.6,
+        "solucao_comum": "Contorno",
+        "pct_solucao_comum": 62.7
+      }
+    },
+    {
+      "ticket": "INC8589787",
       "prioridade": "2 - Alta",
+      "produto": "lhco",
+      "produto_origem": "original",
+      "categoria": "cat71",
+      "subcategoria": "sub7",
+      "item_configuracao": "IC00379",
+      "grupo": "Team14",
+      "aberto_por": "Monitoramento",
+      "probabilidade": 78.6,
+      "severidade": "ALTO",
+      "violou_sla_real": false,
+      "recomendacao": "Priorizar triagem automática antes do SLA",
+      "contexto_produto": {
+        "volume_total": 29757,
+        "taxa_violacao_pct": 0.67,
+        "top_codigo_fechamento": "Falha de Aplicação",
+        "pct_codigo_fechamento": 57.7,
+        "solucao_comum": "Contorno",
+        "pct_solucao_comum": 73.0
+      }
+    },
+    {
+      "ticket": "INC8578939",
+      "prioridade": "3 - Média",
       "produto": "lcem",
       "produto_origem": "original",
       "categoria": "cat76",
-      "subcategoria": "sub392",
-      "item_configuracao": "IC00668",
+      "subcategoria": "sub438",
+      "item_configuracao": "IC00677",
       "grupo": "Team05",
-      "aberto_por": "Monitoramento",
-      "probabilidade": 91.0,
+      "aberto_por": "Manual",
+      "probabilidade": 78.4,
       "severidade": "ALTO",
-      "recomendacao": "Priorizar triagem automática antes do SLA",
+      "violou_sla_real": false,
+      "recomendacao": "Escalar para intervenção manual imediata",
       "contexto_produto": {
         "volume_total": 7225,
         "taxa_violacao_pct": 0.68,
@@ -63,159 +110,120 @@
       }
     },
     {
-      "ticket": "INC8652876",
+      "ticket": "INC8565983",
       "prioridade": "3 - Média",
-      "produto": "lrev",
+      "produto": "lsin",
       "produto_origem": "original",
-      "categoria": "cat94",
-      "subcategoria": "sub95",
-      "item_configuracao": "IC00246",
-      "grupo": "Team05",
-      "aberto_por": "Manual",
-      "probabilidade": 87.0,
-      "severidade": "ALTO",
-      "recomendacao": "Escalar para intervenção manual imediata",
-      "contexto_produto": {
-        "volume_total": 5031,
-        "taxa_violacao_pct": 0.49,
-        "top_codigo_fechamento": "Falha de Aplicação",
-        "pct_codigo_fechamento": 45.9,
-        "solucao_comum": "Contorno",
-        "pct_solucao_comum": 63.6
-      }
-    },
-    {
-      "ticket": "INC8652841",
-      "prioridade": "2 - Alta",
-      "produto": "lrev",
-      "produto_origem": "original",
-      "categoria": "cat94",
-      "subcategoria": "sub95",
-      "item_configuracao": "IC00248",
+      "categoria": "cat141",
+      "subcategoria": "sub446",
+      "item_configuracao": "IC01904",
       "grupo": "Team14",
       "aberto_por": "Monitoramento",
-      "probabilidade": 76.8,
+      "probabilidade": 78.3,
       "severidade": "ALTO",
+      "violou_sla_real": false,
       "recomendacao": "Priorizar triagem automática antes do SLA",
       "contexto_produto": {
-        "volume_total": 5031,
-        "taxa_violacao_pct": 0.49,
+        "volume_total": 47352,
+        "taxa_violacao_pct": 1.92,
         "top_codigo_fechamento": "Falha de Aplicação",
-        "pct_codigo_fechamento": 45.9,
+        "pct_codigo_fechamento": 36.6,
         "solucao_comum": "Contorno",
-        "pct_solucao_comum": 63.6
+        "pct_solucao_comum": 62.7
       }
     },
     {
-      "ticket": "INC8648471",
-      "prioridade": "2 - Alta",
-      "produto": "lrev",
+      "ticket": "INC8557876",
+      "prioridade": "3 - Média",
+      "produto": "lsg2",
       "produto_origem": "original",
-      "categoria": "cat97",
-      "subcategoria": "sub437",
-      "item_configuracao": "IC00490",
+      "categoria": "cat71",
+      "subcategoria": "sub7",
+      "item_configuracao": "IC04641",
       "grupo": "Team14",
       "aberto_por": "Manual",
-      "probabilidade": 61.1,
+      "probabilidade": 78.3,
       "severidade": "ALTO",
+      "violou_sla_real": false,
       "recomendacao": "Escalar para intervenção manual imediata",
       "contexto_produto": {
-        "volume_total": 5031,
-        "taxa_violacao_pct": 0.49,
-        "top_codigo_fechamento": "Falha de Aplicação",
-        "pct_codigo_fechamento": 45.9,
-        "solucao_comum": "Contorno",
-        "pct_solucao_comum": 63.6
-      }
-    },
-    {
-      "ticket": "INC8644939",
-      "prioridade": "3 - Média",
-      "produto": "lrev",
-      "produto_origem": "original",
-      "categoria": "cat35",
-      "subcategoria": "sub79",
-      "item_configuracao": "IC00298",
-      "grupo": "Team14",
-      "aberto_por": "Manual",
-      "probabilidade": 55.5,
-      "severidade": "ALTO",
-      "recomendacao": "Escalar para intervenção manual imediata",
-      "contexto_produto": {
-        "volume_total": 5031,
-        "taxa_violacao_pct": 0.49,
-        "top_codigo_fechamento": "Falha de Aplicação",
-        "pct_codigo_fechamento": 45.9,
-        "solucao_comum": "Contorno",
-        "pct_solucao_comum": 63.6
-      }
-    },
-    {
-      "ticket": "INC8644806",
-      "prioridade": "3 - Média",
-      "produto": "lrev",
-      "produto_origem": "original",
-      "categoria": "cat95",
-      "subcategoria": "sub79",
-      "item_configuracao": "IC00755",
-      "grupo": "Team14",
-      "aberto_por": "Monitoramento",
-      "probabilidade": 53.4,
-      "severidade": "ALTO",
-      "recomendacao": "Priorizar triagem automática antes do SLA",
-      "contexto_produto": {
-        "volume_total": 5031,
-        "taxa_violacao_pct": 0.49,
-        "top_codigo_fechamento": "Falha de Aplicação",
-        "pct_codigo_fechamento": 45.9,
-        "solucao_comum": "Contorno",
-        "pct_solucao_comum": 63.6
-      }
-    },
-    {
-      "ticket": "INC8646355",
-      "prioridade": "3 - Média",
-      "produto": "lema",
-      "produto_origem": "original",
-      "categoria": "cat103",
-      "subcategoria": "sub387",
-      "item_configuracao": "IC00680",
-      "grupo": "Team11",
-      "aberto_por": "Manual",
-      "probabilidade": 48.4,
-      "severidade": "MÉDIO",
-      "recomendacao": "Escalar para intervenção manual imediata",
-      "contexto_produto": {
-        "volume_total": 21,
+        "volume_total": 300,
         "taxa_violacao_pct": 0.0,
         "top_codigo_fechamento": "Falha de Aplicação",
-        "pct_codigo_fechamento": 66.7,
+        "pct_codigo_fechamento": 43.5,
         "solucao_comum": "Definitiva",
-        "pct_solucao_comum": 69.2
+        "pct_solucao_comum": 54.7
       }
     },
     {
-      "ticket": "INC8644925",
+      "ticket": "INC8587255",
       "prioridade": "3 - Média",
-      "produto": "lcem",
+      "produto": "lssl",
       "produto_origem": "original",
-      "categoria": "cat76",
-      "subcategoria": "sub392",
-      "item_configuracao": "IC00751",
-      "grupo": "Team05",
-      "aberto_por": "Monitoramento",
-      "probabilidade": 48.4,
-      "severidade": "MÉDIO",
-      "recomendacao": "Priorizar triagem automática antes do SLA",
+      "categoria": "cat102",
+      "subcategoria": "sub221",
+      "item_configuracao": "IC00835",
+      "grupo": "Team09",
+      "aberto_por": "Manual",
+      "probabilidade": 66.2,
+      "severidade": "ALTO",
+      "violou_sla_real": true,
+      "recomendacao": "Escalar para intervenção manual imediata",
       "contexto_produto": {
-        "volume_total": 7225,
-        "taxa_violacao_pct": 0.68,
+        "volume_total": 584,
+        "taxa_violacao_pct": 1.98,
         "top_codigo_fechamento": "Falha de Aplicação",
-        "pct_codigo_fechamento": 66.4,
-        "solucao_comum": "Definitiva",
-        "pct_solucao_comum": 51.1
+        "pct_codigo_fechamento": 68.4,
+        "solucao_comum": "Contorno",
+        "pct_solucao_comum": 64.7
+      }
+    },
+    {
+      "ticket": "INC8526214",
+      "prioridade": "3 - Média",
+      "produto": "lrel",
+      "produto_origem": "original",
+      "categoria": "cat85",
+      "subcategoria": "sub38",
+      "item_configuracao": "IC02649",
+      "grupo": "Team09",
+      "aberto_por": "Manual",
+      "probabilidade": 65.3,
+      "severidade": "ALTO",
+      "violou_sla_real": true,
+      "recomendacao": "Escalar para intervenção manual imediata",
+      "contexto_produto": {
+        "volume_total": 1477,
+        "taxa_violacao_pct": 0.98,
+        "top_codigo_fechamento": "Falha de Aplicação",
+        "pct_codigo_fechamento": 40.4,
+        "solucao_comum": "Contorno",
+        "pct_solucao_comum": 59.3
+      }
+    },
+    {
+      "ticket": "INC8614998",
+      "prioridade": "3 - Média",
+      "produto": "lsaa",
+      "produto_origem": "original",
+      "categoria": "cat31",
+      "subcategoria": "sub387",
+      "item_configuracao": "IC00633",
+      "grupo": "Team11",
+      "aberto_por": "Manual",
+      "probabilidade": 64.4,
+      "severidade": "ALTO",
+      "violou_sla_real": true,
+      "recomendacao": "Escalar para intervenção manual imediata",
+      "contexto_produto": {
+        "volume_total": 6125,
+        "taxa_violacao_pct": 1.4,
+        "top_codigo_fechamento": "Falha de Aplicação",
+        "pct_codigo_fechamento": 60.6,
+        "solucao_comum": "Contorno",
+        "pct_solucao_comum": 67.1
       }
     }
   ],
-  "aviso": "Probabilidades geradas por um modelo que nunca viu esses tickets durante o treino (holdout out-of-sample), sobre os incidentes mais recentes do dataset monitorado — validação honesta de como o modelo se comportaria em produção. Não representam incidentes em aberto no momento, pois o dataset é histórico."
+  "aviso": "Estes são tickets reais e recentes do dataset que o modelo nunca viu durante o treinamento — por isso dá para conferir, em cada card, se a previsão de risco realmente se confirmou. Não são incidentes abertos agora (o dataset é histórico); são um teste de precisão do modelo sobre casos já resolvidos."
 }

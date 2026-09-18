@@ -72,6 +72,18 @@ export default function AlertsList({ risk }: { risk: Risk }) {
                 {a.prioridade} · {a.grupo} · aberto por {a.aberto_por}
               </p>
 
+              <p
+                className={`mt-2 rounded-lg px-3 py-1.5 text-xs font-semibold ${
+                  a.violou_sla_real
+                    ? "bg-emerald-50 text-emerald-700"
+                    : "bg-slate-100 text-slate-600"
+                }`}
+              >
+                {a.violou_sla_real
+                  ? "✓ Confirmado: este ticket violou o SLA — o modelo acertou o alerta"
+                  : "○ Este ticket não chegou a violar o SLA — alerta não se confirmou neste caso"}
+              </p>
+
               <div className="mt-3 rounded-lg border border-[#EDEAE7] bg-[#FAF9F8] p-3 text-xs text-slate-600">
                 <p className="font-semibold text-[#2A343E]">
                   Produto: {a.produto}

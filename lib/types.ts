@@ -62,6 +62,7 @@ export interface AlertaSimulado {
   aberto_por: string;
   probabilidade: number;
   severidade: "ALTO" | "MÉDIO" | "BAIXO";
+  violou_sla_real: boolean;
   recomendacao: string;
   contexto_produto: ProdutoContexto | null;
 }
