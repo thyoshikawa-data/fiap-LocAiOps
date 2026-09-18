@@ -1,9 +1,0 @@
-ticket,prioridade,produto,produto_origem,categoria,subcategoria,item_configuracao,grupo,aberto_por,probabilidade,severidade,recomendacao,ctx_volume_total,ctx_taxa_violacao_pct,ctx_top_codigo_fechamento,ctx_pct_codigo_fechamento,ctx_solucao_comum,ctx_pct_solucao_comum
-INC8649768,3 - Média,lrdo,original,cat112,sub395,IC00251,Team11,Manual,92.8,ALTO,Escalar para intervenção manual imediata,584,1.63,Falha de Aplicação,68.1,Definitiva,53.7
-INC8653593,2 - Alta,lsin,original,cat141,sub446,IC00166,Team03,Monitoramento,91.6,ALTO,Priorizar triagem automática antes do SLA,47352,1.92,Falha de Aplicação,36.6,Contorno,62.7
-INC8649800,3 - Média,lhco,original,cat85,sub134,IC00349,Team11,Manual,89.5,ALTO,Escalar para intervenção manual imediata,29757,0.67,Falha de Aplicação,57.7,Contorno,73.0
-INC8652807,3 - Média,lrdo,original,cat112,sub221,IC00251,Team11,Manual,62.6,ALTO,Escalar para intervenção manual imediata,584,1.63,Falha de Aplicação,68.1,Definitiva,53.7
-INC8652831,3 - Média,lrdo,original,cat112,sub221,IC00249,Team11,Manual,62.6,ALTO,Escalar para intervenção manual imediata,584,1.63,Falha de Aplicação,68.1,Definitiva,53.7
-INC8652819,3 - Média,lrdo,original,cat112,sub246,IC00251,Team11,Manual,62.6,ALTO,Escalar para intervenção manual imediata,584,1.63,Falha de Aplicação,68.1,Definitiva,53.7
-INC8650588,2 - Alta,lhco,original,cat71,sub7,IC00389,Team09,Manual,59.4,ALTO,Escalar para intervenção manual imediata,29757,0.67,Falha de Aplicação,57.7,Contorno,73.0
-INC8651368,3 - Média,lrel,original,cat123,sub209,IC00375,Team11,Manual,53.8,ALTO,Escalar para intervenção manual imediata,1477,0.98,Falha de Aplicação,40.4,Contorno,59.3

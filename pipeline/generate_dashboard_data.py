@@ -324,14 +324,18 @@ def risk_model(df):
         .head(8)
     )
 
-    clf_full = RandomForestClassifier(
-        n_estimators=300, class_weight="balanced", random_state=RANDOM_STATE, min_samples_leaf=3
-    )
-    clf_full.fit(X, y)
-    kpi_df["prob_violacao"] = clf_full.predict_proba(X)[:, 1]
+    # Alertas: escolhidos apenas dentre os tickets de holdout (test_idx), pontuados
+    # pelo `clf` treinado sem eles. Usar clf_full (treinado com tudo, incluindo o
+    # próprio ticket) inflaria a probabilidade — o modelo estaria "adivinhando"
+    # algo que já viu no treino, não prevendo de fato.
+    kpi_df_reset = kpi_df.reset_index(drop=True)
+    holdout_mask = np.zeros(len(kpi_df_reset), dtype=bool)
+    holdout_mask[test_idx] = True
+    holdout_df = kpi_df_reset[holdout_mask].copy()
+    holdout_df["prob_violacao"] = proba_test
 
     recentes = (
-        kpi_df[kpi_df["Prioridade"].astype(str).isin(["2 - Alta", "3 - Média"])]
+        holdout_df[holdout_df["Prioridade"].astype(str).isin(["2 - Alta", "3 - Média"])]
         .sort_values("Aberto", ascending=False)
         .head(60)
     )
@@ -384,7 +388,12 @@ def risk_model(df):
             {"feature": k, "importancia": round(float(v), 4)} for k, v in importances.items()
         ],
         "alertas_simulados": alertas,
-        "aviso": "Probabilidades geradas sobre tickets históricos reais, simulando o momento da abertura — não representam incidentes em aberto no momento.",
+        "aviso": (
+            "Probabilidades geradas por um modelo que nunca viu esses tickets durante o "
+            "treino (holdout out-of-sample), sobre os incidentes mais recentes do dataset "
+            "monitorado — validação honesta de como o modelo se comportaria em produção. "
+            "Não representam incidentes em aberto no momento, pois o dataset é histórico."
+        ),
     }
 
 

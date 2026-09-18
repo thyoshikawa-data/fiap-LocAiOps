@@ -1,2 +1,0 @@
-periodo_inicio,periodo_fim,total_registros,volume_mes_atual,previsao_d1,previsao_d7_total,taxa_violacao_sla_pct,pct_aberto_monitoramento,auc_modelo_risco,mape_previsao_pct,produto_pct_original,produto_pct_inferido,produto_pct_sem_produto
-2023-01-02,2025-12-31,122543,27321,859.8,6092.1,0.97,85.1,0.769,13.22,36.4,57.1,6.5
