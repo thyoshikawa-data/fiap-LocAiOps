@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LocAiOps — MVP | Challenge Locaweb",
-  description: "Previsão de incidentes e risco de SLA — MVP preliminar (Sprint 3, FIAP 2TSCOA)",
+  title: "LocAiOps | Challenge Locaweb",
+  description: "Previsão de incidentes e risco de SLA — solução final (Sprint 4, FIAP 2TSCOA)",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -1,10 +1,15 @@
-# LocAiOps — MVP Preliminar (Sprint 3)
+# LocAiOps
 
-Challenge Locaweb · FIAP 2TSCOA · Tema: AIOps — Previsão de Incidentes e Tendências Operacionais.
+Challenge Locaweb · FIAP 2TSCOA · Sprint 4 (entrega final) · Tema: AIOps — Previsão de
+Incidentes e Tendências Operacionais.
 
-Plataforma que prevê volume de incidentes (D+1/D+7), estima risco de violação de SLA por
+Equipe: Silvielen Couto (RM564378) e Thales Yoshikawa (RM562897).
+
+Dashboard que prevê volume de incidentes (D+1/D+7), estima risco de violação de SLA por
 ticket e aponta causas raiz operacionais, a partir do histórico real de incidentes ITSM da
 Locaweb (122.543 registros, 2023–2025).
+
+Deploy: https://fiap-loc-ai-ops.vercel.app/
 
 ## Estrutura
 
@@ -35,9 +40,12 @@ Gera/atualiza os arquivos em `public/data/*.json`:
 - **Previsão de volume** (RandomForestRegressor): features de calendário + lags (1, 2, 7 dias) e
   médias móveis; backtest de 14 dias (MAE/MAPE) e previsão recursiva D+1..D+7.
 - **Risco de violação de SLA** (RandomForestClassifier, `class_weight="balanced"` dado o
-  desbalanceamento ~1%): treinado sobre tickets elegíveis a KPI; reporta AUC em holdout e
-  importância de features. Os "alertas simulados" aplicam o modelo sobre tickets históricos
-  recentes de prioridade 2/3, como demonstração — não representam incidentes em aberto agora.
+  desbalanceamento ~1%): treinado sobre tickets elegíveis a KPI; reporta AUC em holdout (0,804)
+  e importância de features. Os "alertas simulados" só usam tickets do holdout (nunca vistos
+  no treino do modelo que gerou aquela probabilidade), de prioridade 2/3 dentro do regime
+  atual — mistura os de maior risco com casos que realmente violaram o SLA, pra dar pra
+  conferir se a previsão bateu ou não. Não representam incidentes em aberto agora, o dataset
+  é histórico.
 - **Causa raiz**: top produtos, taxa de violação por origem de abertura (Manual vs.
   Monitoramento), top códigos de fechamento e clusterização operacional (KMeans) por duração/
   horário de abertura.
@@ -55,5 +63,5 @@ análise de causa raiz.
 
 ## Deploy
 
-Aplicação 100% estática/server-side em Next.js — compatível com deploy direto no Vercel a partir
-deste repositório (sem infraestrutura adicional).
+Publicado no Vercel direto a partir deste repositório (sem infraestrutura adicional):
+https://fiap-loc-ai-ops.vercel.app/

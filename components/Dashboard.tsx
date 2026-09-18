@@ -73,7 +73,7 @@ export default function Dashboard({ data }: { data: DashboardData }) {
       </header>
 
       <h1 className="mt-3 text-2xl font-bold text-[#2A343E]">
-        Previsão de incidentes e risco de SLA — MVP preliminar
+        Previsão de incidentes e risco de SLA
       </h1>
 
       <nav className="mt-4 flex gap-2 border-b border-[#E4E0DC]">

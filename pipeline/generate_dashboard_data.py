@@ -1,5 +1,5 @@
 """
-LocAiOps - Pipeline de geração dos dados do MVP (Sprint 3).
+LocAiOps - Pipeline de geração dos dados do dashboard.
 
 Lê o dataset real fornecido pela Locaweb (fora do repositório git, por
 confidencialidade), roda EDA + modelos de previsão/risco/clusterização e
